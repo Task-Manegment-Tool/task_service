@@ -42,7 +42,7 @@ public class RedisConfig {
 
     @Bean
     public ChannelTopic topic() {
-        return new ChannelTopic("pubsub:javatechie_channel");
+        return new ChannelTopic("pubsub:todo_channel");
     }
 
 //    @Bean
