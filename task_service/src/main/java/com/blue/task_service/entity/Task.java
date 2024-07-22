@@ -1,10 +1,7 @@
 package com.blue.task_service.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "TASK")
+@ToString
 public class Task {
 
     @Id
@@ -21,6 +19,7 @@ public class Task {
     private Long taskId;
     private String name;
     private String description;
-    private LocalDateTime dateTime;
+    private LocalDateTime expiryTime;
     private Long userId;
+    private TaskStatus status;
 }

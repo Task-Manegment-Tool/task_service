@@ -1,0 +1,7 @@
+com\blue\task_service\service\TaskServiceImpl.class
+com\blue\task_service\repository\TaskRepository.class
+com\blue\task_service\entity\Task.class
+com\blue\task_service\TaskServiceApplication.class
+com\blue\task_service\controller\TaskController.class
+com\blue\task_service\service\TaskService.class
+com\blue\task_service\dto\TaskDto.class

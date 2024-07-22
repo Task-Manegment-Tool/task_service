@@ -12,4 +12,5 @@ public interface TaskService {
     public List<Task> getTasksByUserId(Long userId);
     public Task updateTaskById(Long taskId, TaskDto taskDto);
     public Task deleteTask(Long taskId);
+    public void sendTaskCompletionNotification();
 }

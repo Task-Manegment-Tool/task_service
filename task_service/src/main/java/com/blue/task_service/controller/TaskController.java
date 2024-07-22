@@ -54,5 +54,11 @@ public class TaskController {
     public ResponseEntity<Task> deleteTask(@PathVariable("taskId") Long taskId){
         Task task = taskService.deleteTask(taskId);
         return ResponseEntity.ok(task);
+
     }
+    @GetMapping("/task_status_notify/{taskId}")
+    public String notifyTaskStatus(@PathVariable("taskId") Long taskId){
+         taskService.sendTaskCompletionNotification();
+
+        return "notification send to task pending";}
 }
