@@ -110,7 +110,7 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    @Scheduled(fixedRate = 6000) // Schedule to run every minute
+    @Scheduled(fixedRate = 60000) // Schedule to run every minute
     public void sendTaskCompletionNotification() {
 
        List<Task> listOfPendingTask = taskRepository.findByStatus(TaskStatus.PENDING);
@@ -139,19 +139,6 @@ public class TaskServiceImpl implements TaskService{
 
 
 
-
-
-
-//                        Mail mail = new Mail();
-//                        mail.setTo("palaskara749@gmail.com");
-//                        mail.setSubject("Task Reminder Notification");
-//                        mail.setText("Your task is not completed please complete your task \r\n" +
-//                                "Task Name :" + expiredTask.getName() + "\r\n" +
-//                                "Task Description :" + expiredTask.getDescription());
-//
-//                      //  notify.sendNotification(mail);
-//
-//                        System.out.println("Notification sent for task completion.");
                         }
                         catch(Exception e ){
                             Thread.currentThread().interrupt();
