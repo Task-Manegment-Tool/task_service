@@ -2,6 +2,7 @@ package com.blue.task_service.service;
 
 import com.blue.task_service.dto.TaskDto;
 import com.blue.task_service.entity.Mail;
+import com.blue.task_service.entity.Project;
 import com.blue.task_service.entity.Task;
 import com.blue.task_service.entity.TaskStatus;
 import com.blue.task_service.repository.TaskRepository;
@@ -40,28 +41,63 @@ public class TaskServiceImpl implements TaskService{
 
     @Autowired
     private  NotificationService notify;
+    @Autowired
+    private ProjectService projectService;
 
     @Override
-    public Task createTask(String name, String description, LocalDateTime dateTime, Long userId){
+    public Task createTask(Integer projectid,String name, String description, LocalDateTime dateTime, Long userId) throws Exception {
+        Project project =projectService.getProjectById(projectid).getBody();
+
+        if(project == null){
+//            Exception e = new RuntimeException("Project not found");
+//            throw e;
+            Project project1 = new Project();
+            project1.setProjectName("project not found");
+            project1.setDomain("send proper project id");
+            Task task = new Task();
+            task.setProjectId(project1.getId());
+            return task;
+        }
+
         Task task = new Task();
+
         task.setName(name);
         task.setDescription(description);
         task.setExpiryTime(dateTime);
         task.setUserId(userId);
-        task.setStatus(TaskStatus.PENDING);
+        task.setStatus(TaskStatus.BACK_LOG);
 
-        Mail mail = new Mail();
-        mail.setTo("palaskara749@gmail.com");
-        mail.setSubject("New Task Assinged");
-        mail.setText("Hello User "+task.getUserId()+"!!\r \n" +
-                "A New task is assinged tp you , this mail is to let u know your task \r\n " +
-                "Task Name : "+task.getName()+" is assinged . \r\n " +
-                "Task Status : " +task.getStatus()+"\r\n"+
-                "Task Description : "+task.getDescription()+" and its expired time is "+task.getExpiryTime() );
-        notify.sendNotification(mail);
+        task.setProjectId(project.getId());
+        System.out.println(task);
+       Task task1 = taskRepository.save(task);
+        System.out.println(task1);
 
-       return taskRepository.save(task);
-       // return task;
+
+//        Mail mail = new Mail();
+//        mail.setTo("palaskara749@gmail.com");
+//        mail.setSubject("New Task Assinged");
+//        mail.setText("Hello User "+task.getUserId()+"!!\r \n" +
+//                "A New task is assinged tp you , this mail is to let u know your task \r\n " +
+//                "Task Name : "+task.getName()+" is assinged . \r\n " +
+//                "Task Status : " +task.getStatus()+"\r\n"+
+//                "Task Description : "+task.getDescription()+" and its expired time is "+task.getExpiryTime() );
+
+
+        try {
+
+            task1.setId(Long.valueOf("100"+task.getId()));
+
+            String taskJson = objectMapper.writeValueAsString(task1);
+           template.convertAndSend(topic.getTopic(), taskJson);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+       // notify.sendNotification(mail);
+
+//       return taskRepository.save(task);
+       return task1;
     }
 
     @Override
@@ -77,28 +113,39 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
+    public List<Task> getTasksByProjectId(Integer projectId) {
+        List<Task> listofTask = taskRepository.findAllByProjectId(projectId);
+
+        return listofTask;
+    }
+
+    @Override
     public Task updateTaskById(Long taskId, TaskDto taskDto) {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task Not Found"));
 
-        task.setTaskId(taskId);
-        task.setName(taskDto.getTaskName());
+        task.setId(taskId);
+        task.setName(taskDto.getName());
         task.setDescription(taskDto.getDescription());
-        task.setExpiryTime(taskDto.getDateTime());
+        task.setExpiryTime(taskDto.getExpiryTime());
         task.setUserId(taskDto.getUserId());
         task.setStatus(taskDto.getStatus());
 
+        task.setProjectId(taskDto.getProjectId());
+        Task taskUpdated =taskRepository.save(task);
 
-        Mail mail = new Mail();
-        mail.setTo("palaskara749@gmail.com");
-        mail.setSubject("Task Updated");
-        mail.setText("Hello User "+task.getUserId()+"!!\r \n" +
-                "Your task is updated this mail is to let u know ypur updated task \r\n " +
-                "Task Name : "+task.getName()+" is updated. \r\n " +
-                "Task Status : " +task.getStatus()+"\r\n"+
-                "Task Description : "+task.getDescription()+" and its expired time is "+task.getExpiryTime());
-        notify.sendNotification(mail);
+try {
+             taskUpdated.setId(Long.valueOf("101"+task.getId()));
 
-        return taskRepository.save(task);
+           String taskJson = objectMapper.writeValueAsString(taskUpdated);
+           template.convertAndSend(topic.getTopic(), taskJson);
+       }
+       catch(Exception e){
+           e.printStackTrace();
+       }
+
+      //  notify.sendNotification(mail);
+
+        return task;
      //   return task;
     }
 
@@ -113,7 +160,7 @@ public class TaskServiceImpl implements TaskService{
     @Scheduled(fixedRate = 60000) // Schedule to run every minute
     public void sendTaskCompletionNotification() {
 
-       List<Task> listOfPendingTask = taskRepository.findByStatus(TaskStatus.PENDING);
+       List<Task> listOfPendingTask = taskRepository.findByStatus(TaskStatus.BACK_LOG);
        String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -125,12 +172,15 @@ public class TaskServiceImpl implements TaskService{
                 for(Task expiredTask : listOfExpiredTask) {
 
                     try{
+
                         System.out.println("inside loop");
                         System.out.println(expiredTask);
+
+                        expiredTask.setId(Long.valueOf("102"+expiredTask.getId()));
+
+                        System.out.println(expiredTask.getId());
+
                         String taskJson = objectMapper.writeValueAsString(expiredTask);
-
-
-
                         template.convertAndSend(topic.getTopic(), taskJson);
 
                         System.out.println("message publish ");

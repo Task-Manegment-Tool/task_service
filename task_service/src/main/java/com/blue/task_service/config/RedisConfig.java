@@ -48,6 +48,7 @@ public class RedisConfig {
 //    @Bean
 //    public MessageListenerAdapter messageListenerAdapter() {
 //        return new MessageListenerAdapter(new Receiver());
+
 //    }
 //
 //    @Bean

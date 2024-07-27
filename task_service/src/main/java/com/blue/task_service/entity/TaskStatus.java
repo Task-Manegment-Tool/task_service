@@ -1,6 +1,8 @@
 package com.blue.task_service.entity;
 
 public enum TaskStatus {
-    PENDING,
-    COMPLETED
+    BACK_LOG,
+    TO_DO,
+    IN_PROGRESS,
+    DONE
 }

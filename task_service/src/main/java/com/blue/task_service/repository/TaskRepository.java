@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
+    List<Task> findAllByProjectId(Integer projectId);
     List<Task> findAllByUserId(Long userId);
     List<Task> findByStatus(TaskStatus status);
     List<Task> findByexpiryTime(LocalDateTime currentTime);

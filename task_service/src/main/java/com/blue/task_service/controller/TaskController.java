@@ -2,6 +2,7 @@ package com.blue.task_service.controller;
 
 import com.blue.task_service.dto.TaskDto;
 import com.blue.task_service.entity.Task;
+import com.blue.task_service.exception.Exception;
 import com.blue.task_service.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,12 +17,14 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody TaskDto taskDto){
+    @PostMapping("/project/{projectId}")
+    public ResponseEntity<Task> createTask(@PathVariable Integer projectId , @RequestBody TaskDto taskDto) throws java.lang.Exception {
+        System.out.println(taskDto);
         Task task = taskService.createTask(
-                taskDto.getTaskName(),
+                projectId,
+                taskDto.getName(),
                 taskDto.getDescription(),
-                taskDto.getDateTime(),
+                taskDto.getExpiryTime(),
                 taskDto.getUserId()
         );
 
@@ -43,6 +46,13 @@ public class TaskController {
 
         return response;
     }
+    @GetMapping("/projectId/{projectId}")
+    public ResponseEntity<List<Task>> getTasksByProjectId(@PathVariable("projectId") Integer projectId){
+        List<Task> tasks = taskService.getTasksByProjectId(projectId);
+
+
+        return ResponseEntity.ok(tasks);
+    }
 
     @PutMapping("/taskId/{taskId}")
     public ResponseEntity<Task> updateTaskById(@PathVariable("taskId") Long taskId, @RequestBody TaskDto taskDto){
@@ -61,4 +71,11 @@ public class TaskController {
          taskService.sendTaskCompletionNotification();
 
         return "notification send to task pending";}
+
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleCustomException(Exception ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
+

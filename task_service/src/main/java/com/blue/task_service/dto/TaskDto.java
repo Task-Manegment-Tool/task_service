@@ -9,9 +9,11 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class TaskDto {
-    private String taskName;
+
+    private String name;
     private String description;
-    private LocalDateTime dateTime;
+    private LocalDateTime expiryTime;
     private Long userId;
     private TaskStatus status;
+    private Integer projectId;
 }
