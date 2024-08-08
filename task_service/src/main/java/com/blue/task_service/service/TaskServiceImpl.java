@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -88,6 +89,7 @@ public class TaskServiceImpl implements TaskService{
             task1.setId(Long.valueOf("100"+task.getId()));
 
             String taskJson = objectMapper.writeValueAsString(task1);
+
            template.convertAndSend(topic.getTopic(), taskJson);
         }
         catch(Exception e){
@@ -199,7 +201,22 @@ try {
                 }
 
             }
-        }
+
+    @Override
+    public String updateTaskStatus(Long taskId, TaskStatus status) {
+
+        Optional<Task> task = taskRepository.findById(taskId);
+       if(!task.isPresent()){
+           return "task not present";
+       }
+       TaskStatus previousStatus = task.get().getStatus();
+       task.get().setStatus(status);
+       taskRepository.save(task.get());
+        return "task uodated \r\n" +
+                "task id: " +taskId+" \r\n"+
+                "its status change from  "+previousStatus+ " to "+task.get().getStatus();
+    }
+}
 
 
 

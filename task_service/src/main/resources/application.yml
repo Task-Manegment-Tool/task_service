@@ -1,23 +1,5 @@
 spring:
   application:
       name: task-service
-  redis:
-    host: localhost
-    port: 6380
-  datasource:
-    url: jdbc:postgresql://localhost:5555/Todo
-    username: postgres
-    password: Admin@123
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-
-server:
-  port: 9003
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:9000/eureka/
+  config:
+    import: "configserver:http://localhost:9008"

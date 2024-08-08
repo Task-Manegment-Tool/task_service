@@ -1,7 +1,16 @@
+C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\config\ObjectMap.java
+C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\config\RedisConfig.java
 C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\controller\TaskController.java
 C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\dto\TaskDto.java
+C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\entity\Mail.java
+C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\entity\Project.java
 C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\entity\Task.java
+C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\entity\TaskStatus.java
+C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\exception\Exception.java
+C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\repository\ProjectRepository.java
 C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\repository\TaskRepository.java
+C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\service\NotificationService.java
+C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\service\ProjectService.java
 C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\service\TaskService.java
 C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\service\TaskServiceImpl.java
 C:\Users\admin\Todo-work-space\task-service\task_service\src\main\java\com\blue\task_service\TaskServiceApplication.java

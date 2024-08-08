@@ -1,7 +1,16 @@
+com\blue\task_service\config\RedisConfig.class
+com\blue\task_service\config\ObjectMap.class
 com\blue\task_service\service\TaskServiceImpl.class
+com\blue\task_service\service\NotificationService.class
 com\blue\task_service\repository\TaskRepository.class
 com\blue\task_service\entity\Task.class
 com\blue\task_service\TaskServiceApplication.class
-com\blue\task_service\controller\TaskController.class
 com\blue\task_service\service\TaskService.class
+com\blue\task_service\entity\Project$ProjectBuilder.class
+com\blue\task_service\entity\TaskStatus.class
+com\blue\task_service\exception\Exception.class
+com\blue\task_service\service\ProjectService.class
+com\blue\task_service\controller\TaskController.class
+com\blue\task_service\entity\Project.class
 com\blue\task_service\dto\TaskDto.class
+com\blue\task_service\entity\Mail.class

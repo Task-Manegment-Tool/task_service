@@ -2,6 +2,7 @@ package com.blue.task_service.controller;
 
 import com.blue.task_service.dto.TaskDto;
 import com.blue.task_service.entity.Task;
+import com.blue.task_service.entity.TaskStatus;
 import com.blue.task_service.exception.Exception;
 import com.blue.task_service.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,14 @@ public class TaskController {
     @PutMapping("/taskId/{taskId}")
     public ResponseEntity<Task> updateTaskById(@PathVariable("taskId") Long taskId, @RequestBody TaskDto taskDto){
         Task task = taskService.updateTaskById(taskId, taskDto);
+        return ResponseEntity.ok(task);
+    }
+
+    @PutMapping("/taskId/updateStatus/{taskId}")
+    public ResponseEntity<String> updateTaskStatusById(@PathVariable("taskId") Long taskId, @RequestBody Task status){
+
+        String task = taskService.updateTaskStatus(taskId,status.getStatus());
+
         return ResponseEntity.ok(task);
     }
 

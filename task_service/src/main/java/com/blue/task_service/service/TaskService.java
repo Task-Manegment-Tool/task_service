@@ -2,6 +2,7 @@ package com.blue.task_service.service;
 
 import com.blue.task_service.dto.TaskDto;
 import com.blue.task_service.entity.Task;
+import com.blue.task_service.entity.TaskStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,4 +15,5 @@ public interface TaskService {
     public Task updateTaskById(Long taskId, TaskDto taskDto);
     public Task deleteTask(Long taskId);
     public void sendTaskCompletionNotification();
+    public String updateTaskStatus(Long taskId, TaskStatus status);
 }
